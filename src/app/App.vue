@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import HeaderBar from "@/widgets/HeaderBar/ui/HeaderBar.vue";
-</script>
-
 <template>
-  <HeaderBar />
+  <ElementFlowEditor />
 </template>
+
+<script setup lang="ts">
+import { ElementFlowEditor } from "@/pages/ElementFlowEditor";
+</script>
 
 <style scoped lang="scss"></style>
