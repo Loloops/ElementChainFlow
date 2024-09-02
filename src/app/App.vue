@@ -1,6 +1,9 @@
+<script setup lang="ts">
+import HeaderBar from "@/widgets/HeaderBar/ui/HeaderBar.vue";
+</script>
+
 <template>
-  <div>123</div>
+  <HeaderBar />
 </template>
 
-<script setup lang="ts"></script>
 <style scoped lang="scss"></style>
