@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElementFlowEditor } from "@/pages/ElementFlowEditor";
+import { ElementFlowEditor } from "@/02_pages/ElementFlowEditor";
 </script>
 
 <style scoped lang="scss"></style>
