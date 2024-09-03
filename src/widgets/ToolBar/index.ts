@@ -1,1 +1,3 @@
-export * from "./components";
+import ToolBar from "./components/ToolBar.vue";
+
+export { ToolBar };
