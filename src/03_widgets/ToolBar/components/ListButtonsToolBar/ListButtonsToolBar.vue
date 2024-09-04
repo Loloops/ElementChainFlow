@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ButtonAddElement from "@/04_features/AddElement/component/ButtonAddElement.vue";
-import { toolBarItems } from "./model/store/store";
+import { toolBarItems } from "./store";
 </script>
 
 <template>
