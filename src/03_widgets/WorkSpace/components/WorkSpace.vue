@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { ElementItem } from "@/05_entities/ElementItem";
-import { SquareItem } from "@/06_shared/components/SquareItem";
+import { ListElementItemsFlow } from "@/04_features/ListElementsItemsFlow";
 </script>
 
 <template>
-  <div style="position: relative; height: 100%; width: 100%">
-    <ElementItem>
-      <SquareItem></SquareItem>
-    </ElementItem>
+  <div class="work-space">
+    <ListElementItemsFlow />
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.work-space {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+</style>
