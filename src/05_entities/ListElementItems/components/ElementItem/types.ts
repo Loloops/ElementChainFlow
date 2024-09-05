@@ -1,7 +1,4 @@
-export enum ElementTypes {
-  Square = "square",
-  Circle = "circle",
-}
+type ElementTypes = "square" | "circle";
 
 export type Element = {
   id: number;

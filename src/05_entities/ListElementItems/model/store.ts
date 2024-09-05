@@ -1,4 +1,4 @@
-import { Element, ElementTypes } from "@/05_entities/ListElementItems";
+import { Element } from "@/05_entities/ListElementItems";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -12,7 +12,7 @@ export const useListElementItems = defineStore("listElementItems", () => {
         x: 40,
         y: 40,
       },
-      type: ElementTypes.Square,
+      type: "square",
     },
     {
       id: 2,
@@ -22,7 +22,7 @@ export const useListElementItems = defineStore("listElementItems", () => {
         x: 150,
         y: 150,
       },
-      type: ElementTypes.Circle,
+      type: "circle",
     },
   ]);
 
