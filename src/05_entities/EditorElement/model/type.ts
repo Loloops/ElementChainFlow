@@ -1,4 +1,4 @@
-type ElementTypes = "square" | "circle";
+import { ElementTypes } from "@/06_shared/model";
 
 export type Element = {
   id: number;
