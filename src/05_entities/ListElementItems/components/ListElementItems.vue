@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SquareItem } from "@/06_shared/components/SquareItem";
+import { ElementItem } from "./ElementItem";
 import { useListElementItems } from "../model/store";
-import ElementItem from "./ElementItem/ElementItem.vue";
 
 const elementsStore = useListElementItems();
 const elements = elementsStore.elements;

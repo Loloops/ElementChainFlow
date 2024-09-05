@@ -1,6 +1,20 @@
 <script setup lang="ts">
-import ButtonAddElement from "@/04_features/AddElement/component/ButtonAddElement.vue";
-import { toolBarItems } from "./store";
+import { ButtonAddElement } from "@/04_features/AddElement";
+import { CircleElementSvg } from "@/06_shared/components/CircleElementSvg";
+import { SquareElementSvg } from "@/06_shared/components/SquareElementSvg";
+
+const toolBarItems = [
+  {
+    id: 1,
+    type: "square",
+    icon: SquareElementSvg,
+  },
+  {
+    id: 2,
+    type: "circle",
+    icon: CircleElementSvg,
+  },
+];
 </script>
 
 <template>
