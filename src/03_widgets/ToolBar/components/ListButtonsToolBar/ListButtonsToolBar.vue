@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ToolBarAddElement } from "@/04_features/ToolBarAddElement";
-import { toolBarItems } from "@/05_entities/ToolBarButtonAddElement";
+import { ToolbarItemFactory } from "@/05_entities/ToolBarButtonAddElement";
+
+const toolBarItems = [
+  ToolbarItemFactory.create("square"),
+  ToolbarItemFactory.create("circle"),
+];
 </script>
 
 <template>

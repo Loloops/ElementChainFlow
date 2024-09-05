@@ -1,4 +1,4 @@
-import { toolBarItems } from "./model/store";
 import ToolBarButtonAddElement from "./component/ToolBarButtonAddElement.vue";
+import { ToolbarItemFactory } from "./model/store";
 
-export { ToolBarButtonAddElement, toolBarItems };
+export { ToolBarButtonAddElement, ToolbarItemFactory };

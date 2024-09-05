@@ -9,7 +9,7 @@ type ToolbarItem = {
   icon: Component;
 };
 
-class ToolbarItemFactory {
+export class ToolbarItemFactory {
   static create(type: ElementTypes): ToolbarItem {
     switch (type) {
       case "square":
@@ -29,8 +29,3 @@ class ToolbarItemFactory {
     }
   }
 }
-
-export const toolBarItems = [
-  ToolbarItemFactory.create("square"),
-  ToolbarItemFactory.create("circle"),
-];
