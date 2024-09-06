@@ -1,3 +1,3 @@
-import ElementItem from "./components/ElementItem.vue";
+import ElementItem from "./ElementItem.vue";
 
 export { ElementItem };
