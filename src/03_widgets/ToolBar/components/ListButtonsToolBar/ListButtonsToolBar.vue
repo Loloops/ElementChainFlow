@@ -1,19 +1,10 @@
 <script setup lang="ts">
-import { ButtonAddElement } from "@/04_features/AddElement";
-import { CircleElementSvg } from "@/06_shared/components/CircleElementSvg";
-import { SquareElementSvg } from "@/06_shared/components/SquareElementSvg";
+import { ToolBarAddElement } from "@/04_features/ToolBarAddElement";
+import { ToolbarItemFactory } from "@/05_entities/ToolBarButtonAddElement";
 
 const toolBarItems = [
-  {
-    id: 1,
-    type: "square",
-    icon: SquareElementSvg,
-  },
-  {
-    id: 2,
-    type: "circle",
-    icon: CircleElementSvg,
-  },
+  ToolbarItemFactory.create("square"),
+  ToolbarItemFactory.create("circle"),
 ];
 </script>
 
@@ -22,9 +13,9 @@ const toolBarItems = [
     <div class="draw-components">
       <ul>
         <li v-for="item in toolBarItems" :key="item.id">
-          <ButtonAddElement :elementType="item.type">
+          <ToolBarAddElement :elementType="item.type">
             <component :is="item.icon" />
-          </ButtonAddElement>
+          </ToolBarAddElement>
         </li>
       </ul>
     </div>

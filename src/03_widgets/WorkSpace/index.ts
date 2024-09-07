@@ -1,3 +1,3 @@
-import WorkSpace from "./components/WorkSpace.vue";
+import WorkSpace from "./WorkSpace.vue";
 
 export { WorkSpace };

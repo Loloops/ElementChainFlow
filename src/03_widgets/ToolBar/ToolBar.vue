@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ListButtonsToolBar } from "./ListButtonsToolBar";
+import { ListButtonsToolBar } from "./components/ListButtonsToolBar";
 </script>
 
 <template>

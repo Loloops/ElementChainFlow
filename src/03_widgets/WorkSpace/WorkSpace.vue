@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ListElementItemsFlow } from "@/04_features/ListElementsItemsFlow";
+import { EditorElementFlow } from "@/04_features/EditorElementFlow";
 </script>
 
 <template>
   <div class="work-space">
-    <ListElementItemsFlow />
+    <EditorElementFlow />
   </div>
 </template>
 
