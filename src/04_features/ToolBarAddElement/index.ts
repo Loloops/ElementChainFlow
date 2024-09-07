@@ -1,2 +1,2 @@
-import ToolBarAddElement from "./component/ToolBarAddElement.vue";
+import ToolBarAddElement from "./ToolBarAddElement.vue";
 export { ToolBarAddElement };

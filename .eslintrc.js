@@ -9,6 +9,7 @@ module.exports = {
     "@vue/typescript/recommended",
     "plugin:prettier/recommended",
   ],
+  plugins: ["import"],
   parserOptions: {
     ecmaVersion: 2020,
   },
@@ -19,6 +20,25 @@ module.exports = {
       "error",
       {
         endOfLine: "auto",
+      },
+    ],
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type",
+        ],
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
       },
     ],
   },

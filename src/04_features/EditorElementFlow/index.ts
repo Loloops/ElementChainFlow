@@ -1,3 +1,3 @@
-import EditorElementFlow from "./components/EditorElementFlow.vue";
+import EditorElementFlow from "./EditorElementFlow.vue";
 
 export { EditorElementFlow };

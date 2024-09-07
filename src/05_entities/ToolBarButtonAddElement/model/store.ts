@@ -1,7 +1,7 @@
+import { Component } from "vue";
 import { CircleElementSvg } from "@/06_shared/components/CircleElementSvg";
 import { SquareElementSvg } from "@/06_shared/components/SquareElementSvg";
 import { ElementTypes } from "@/06_shared/model";
-import { Component } from "vue";
 
 type ToolbarItem = {
   id: number;

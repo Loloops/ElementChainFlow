@@ -1,3 +1,3 @@
-import { ElementTypes } from "./element/types";
+import { ElementTypes } from "./elementTypes";
 
 export { ElementTypes };
