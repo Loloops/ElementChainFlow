@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ToolBarAddElement } from "@/04_features/ToolBarAddElement";
+import { ToolBarAddElement } from "@/04_features/ToolBarButtonAddElement";
 import { ToolbarItemFactory } from "@/05_entities/ToolBarButtonAddElement";
 
 const toolBarItems = [

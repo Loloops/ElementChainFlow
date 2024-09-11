@@ -6,10 +6,10 @@ export type Element = {
     [key: string]: string | number;
   };
   coords: {
-    x_main: number;
-    y_main: number;
-    x: number;
-    y: number;
+    x_start: number;
+    y_start: number;
+    currentX: number;
+    currentY: number;
   };
   type: ElementTypes;
 };

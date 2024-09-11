@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { Component } from "vue";
-import { EditorElement, useEditorElements } from "@/05_entities/EditorElement";
+import {
+  EditorElement,
+  useStoreEditorElements,
+} from "@/05_entities/EditorElement";
 import { CircleItem } from "@/06_shared/components/CircleItem";
 import { SquareItem } from "@/06_shared/components/SquareItem";
 import { ElementTypes } from "@/06_shared/model";
 
-const store = useEditorElements();
+const store = useStoreEditorElements();
 
 const elementComponents: Record<ElementTypes, Component> = {
   square: SquareItem,
@@ -19,10 +22,8 @@ const elementComponents: Record<ElementTypes, Component> = {
       :key="element.id"
       :style="[
         element.styles,
-        {
-          top: element.coords.y + 'px',
-        },
-        { left: element.coords.x + 'px' },
+        { top: element.coords.currentY + 'px' },
+        { left: element.coords.currentX + 'px' },
       ]"
     >
       <template v-if="elementComponents[element.type]">
