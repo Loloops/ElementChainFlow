@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
 import { EditorElementFlow } from "@/04_features/EditorElementFlow";
-import { useMouseStore } from "@/04_features/MouseTracking/model/useMoseStore";
+import { useMouseStore } from "@/04_features/MouseTracking";
 import { WorkSpaceFlow } from "@/04_features/WorkSpaceFlow";
 
 const { windowMouse } = useMouseStore();
@@ -19,9 +19,11 @@ const handleMouseDown = (event: MouseEvent) => {
   };
 
   const handleMouseUp = (event: MouseEvent) => {
+    windowMouse.setStartCoords(event.clientX, event.clientY);
     windowMouse.setCoords(event.clientX, event.clientY);
     windowMouse.changeMove(false);
     currentTarget.removeEventListener("mousemove", handleMouseMove);
+    currentTarget.removeEventListener("mouseup", handleMouseUp);
   };
 
   currentTarget.addEventListener("mousemove", handleMouseMove);

@@ -4,18 +4,12 @@ import { Element } from "@/05_entities/EditorElement";
 import { ElementTypes } from "@/06_shared/model";
 
 export const useStoreEditorElements = defineStore("editorElements", () => {
-  const scaleElements = ref(1);
-
-  function changeScaleElements(newScale: number) {
-    scaleElements.value = newScale;
-  }
-
   const elements = ref<Element[]>([
     {
       id: 1,
       styles: {
         position: "absolute",
-        transform: `scale(1)`,
+        transform: "scale(1)",
       },
       coords: {
         x_start: 250,
@@ -25,7 +19,22 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
       },
       type: "circle",
     },
+    {
+      id: 2,
+      styles: {
+        position: "absolute",
+        transform: "scale(1)",
+      },
+      coords: {
+        x_start: 550,
+        y_start: 400,
+        currentX: 550,
+        currentY: 400,
+      },
+      type: "circle",
+    },
   ]);
+  const scaleElements = ref(1);
 
   function addElement(type: ElementTypes) {
     const newElement: Element = {
@@ -46,15 +55,72 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     elements.value.push(newElement);
   }
 
-  function setStart(el: Element, startX: number, startY: number) {
-    el.coords.x_start = startX;
-    el.coords.y_start = startY;
+  function updateStartXY() {
+    elements.value = elements.value.map((el) => ({
+      ...el,
+      coords: {
+        ...el.coords,
+        x_start: el.coords.currentX,
+        y_start: el.coords.currentY,
+      },
+    }));
   }
 
-  function setCurrent(el: Element, currentX: number, currentY: number) {
-    el.coords.currentX = currentX;
-    el.coords.currentY = currentY;
+  function moveElements({
+    x,
+    y,
+    move,
+    startX,
+    startY,
+  }: {
+    startX: number;
+    startY: number;
+    x: number;
+    y: number;
+    move: boolean;
+  }) {
+    if (!move) {
+      updateStartXY();
+
+      return;
+    }
+
+    elements.value = elements.value.map((el) => ({
+      ...el,
+      coords: {
+        ...el.coords,
+        currentX: el.coords.x_start + (x - startX),
+        currentY: el.coords.y_start + (y - startY),
+      },
+    }));
   }
 
-  return { elements, addElement, setStart, setCurrent, changeScaleElements };
+  function changeScaleElements(newScale: number) {
+    scaleElements.value = newScale;
+  }
+
+  function updateCoordForWorkSpaceResize(deltaScale: number) {
+    elements.value = elements.value.map((el) => ({
+      ...el,
+      styles: {
+        ...el.styles,
+        transform: `scale(${scaleElements.value})`, //тут надо использовать не deltaScale, а новое значение scaleElements
+      },
+      coords: {
+        ...el.coords,
+        currentX: el.coords.currentX * deltaScale,
+        currentY: el.coords.currentY * deltaScale,
+      },
+    }));
+  }
+
+  return {
+    elements,
+    addElement,
+    updateStartXY,
+    moveElements,
+    scaleElements,
+    changeScaleElements,
+    updateCoordForWorkSpaceResize,
+  };
 });
