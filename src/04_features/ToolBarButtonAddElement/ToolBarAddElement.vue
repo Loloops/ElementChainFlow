@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
+import { useToolBarAddElement } from "./model";
 import { Props } from "./type";
-import { useStoreEditorElements } from "@/05_entities/EditorElement";
 import { ToolBarButtonAddElement } from "@/05_entities/ToolBarButtonAddElement";
 import { ElementTypes } from "@/06_shared/model";
 
 const props = defineProps<Props>();
-const store = useStoreEditorElements();
+const { addElement } = useToolBarAddElement();
 
 function addElementToEditor(type: ElementTypes): void {
-  store.addElement(type);
+  addElement(type);
 }
 </script>
 

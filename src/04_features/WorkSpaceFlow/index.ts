@@ -1,3 +1,4 @@
+import { useWorkSpaceFlow } from "./model";
 import WorkSpaceFlow from "./WorkSpaceFlow.vue";
 
-export { WorkSpaceFlow };
+export { WorkSpaceFlow, useWorkSpaceFlow };

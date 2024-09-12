@@ -1,42 +1,33 @@
 <script setup lang="ts">
-import { defineProps, watch } from "vue";
-import { Props } from "./types";
-import { useStoreEditorElements } from "@/05_entities/EditorElement";
+import { useWorkSpaceFlow } from "./model";
 
-const props = defineProps<Props>();
-const storeEditorElements = useStoreEditorElements();
+const workSpaceStore = useWorkSpaceFlow();
+const { mouseDown, mouseUp, resize } = workSpaceStore;
+
+function handleMouseDown(event: MouseEvent) {
+  mouseDown(event.clientX, event.clientY);
+}
+
+function handleMouseUp() {
+  mouseUp();
+}
 
 function handleScroll(event: WheelEvent) {
   if (event.target !== event.currentTarget) {
     return;
   }
 
-  const SCALE = 0.05;
-  const scaleDirection = event.deltaY > 0 ? SCALE : -SCALE;
-  const newScaleValue =
-    storeEditorElements.scaleElements * Math.pow(SCALE, scaleDirection);
-  const deltaScale = newScaleValue / storeEditorElements.scaleElements;
-
-  if (newScaleValue > 2 || newScaleValue < 0.5) {
-    return;
-  }
-
-  storeEditorElements.changeScaleElements(newScaleValue);
-  storeEditorElements.updateCoordForWorkSpaceResize(deltaScale);
-  storeEditorElements.updateStartXY();
+  resize(event.deltaY);
 }
-
-watch(
-  () => props.coords,
-  (newValue) => {
-    storeEditorElements.moveElements(newValue);
-  },
-  { deep: true }
-);
 </script>
 
 <template>
-  <div class="work-space" @wheel="handleScroll">
+  <div
+    class="work-space"
+    @wheel="handleScroll"
+    @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp"
+  >
     <slot></slot>
   </div>
 </template>

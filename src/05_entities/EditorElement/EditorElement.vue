@@ -16,6 +16,6 @@
   left: 0;
   cursor: grab;
   transform: scale(1);
-  transform-origin: "left top 0px";
+  transform-origin: left top 0px;
 }
 </style>
