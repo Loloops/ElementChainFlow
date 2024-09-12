@@ -1,7 +1,5 @@
 import { useStoreEditorElements } from "@/05_entities/EditorElement";
 
-const storeElements = useStoreEditorElements();
-
 export function useMoveElements({
   x,
   y,
@@ -15,6 +13,7 @@ export function useMoveElements({
   y: number;
   move: boolean;
 }) {
+  const storeElements = useStoreEditorElements();
   storeElements.elements.forEach((el) => {
     if (!move) {
       storeElements.setStart(el, x, y);

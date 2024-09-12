@@ -11,7 +11,7 @@ const handleMouseDown = (event: MouseEvent) => {
 
   windowMouse.setStartCoords(event.clientX, event.clientY);
   windowMouse.setCoords(event.clientX, event.clientY);
-  windowMouse.changeMove(true);
+  // windowMouse.changeMove(true);
 
   const handleMouseMove = (event: MouseEvent) => {
     windowMouse.setCoords(event.clientX, event.clientY);
