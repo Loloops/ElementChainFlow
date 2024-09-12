@@ -6,7 +6,7 @@ import {
 } from "@/05_entities/EditorElement";
 import { CircleItem } from "@/06_shared/components/CircleItem";
 import { SquareItem } from "@/06_shared/components/SquareItem";
-import { ElementTypes } from "@/06_shared/model";
+import { ElementTypes } from "@/06_shared/types";
 
 const store = useStoreEditorElements();
 
