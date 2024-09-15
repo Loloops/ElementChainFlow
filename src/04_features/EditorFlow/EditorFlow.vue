@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from "vue";
 import { useEditorFlow } from "./model/store";
 import { Editor } from "@/05_entities/Editor";
 
@@ -7,6 +6,7 @@ const editorStore = useEditorFlow();
 const { moveWorkSpace, mouseDown, mouseUp, resize } = editorStore;
 
 function handleMouseMove() {
+  /* попробовать все таки отказаться вот от этого */
   console.log("editor move");
 
   moveWorkSpace();
