@@ -1,4 +1,4 @@
-import { ElementTypes } from "@/05_entities/ToolBarButtonAddElement";
+import { ElementTypes } from "@/06_shared/types";
 
 type Props = {
   elementType: ElementTypes;

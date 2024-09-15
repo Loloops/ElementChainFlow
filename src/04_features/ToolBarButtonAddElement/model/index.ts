@@ -1,5 +1,5 @@
 import { Element, useStoreEditorElements } from "@/05_entities/EditorElement";
-import { ElementTypes } from "@/05_entities/ToolBarButtonAddElement";
+import { ElementTypes } from "@/06_shared/types";
 
 export function useToolBarAddElement() {
   const store = useStoreEditorElements();

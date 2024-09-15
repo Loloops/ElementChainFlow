@@ -3,7 +3,7 @@ import { defineProps } from "vue";
 import { useToolBarAddElement } from "./model";
 import { Props } from "./type";
 import { ToolBarButtonAddElement } from "@/05_entities/ToolBarButtonAddElement";
-import { ElementTypes } from "@/06_shared/model";
+import { ElementTypes } from "@/06_shared/types";
 
 const props = defineProps<Props>();
 const { addElement } = useToolBarAddElement();
