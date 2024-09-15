@@ -17,6 +17,8 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
         currentY: 100,
       },
       type: "circle",
+      hovered: false,
+      grabbed: false,
     },
     {
       id: 2,
@@ -31,9 +33,15 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
         currentY: 400,
       },
       type: "circle",
+      hovered: false,
+      grabbed: false,
     },
   ]);
   const scaleElements = ref(1);
+
+  function getElement(id: number) {
+    return elements.value.find((el) => el.id === id);
+  }
 
   function updateElements(element: Element) {
     elements.value.push(element);
@@ -46,8 +54,16 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     });
   }
 
-  function updateScale(newScale: number) {
-    scaleElements.value = newScale;
+  function updateElementCurrentXY(
+    id: number,
+    { x, y }: { x: number; y: number }
+  ) {
+    elements.value.forEach((el) => {
+      if (el.id === id) {
+        el.coords.currentX = x;
+        el.coords.currentY = y;
+      }
+    });
   }
 
   function updateElementsScale(deltaScale: number) {
@@ -58,12 +74,49 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     });
   }
 
+  function updateHoveredElement(id: number) {
+    elements.value.forEach((el) => {
+      if (el.id === id) {
+        el.hovered = true;
+      } else {
+        el.hovered = false;
+      }
+    });
+  }
+
+  function resetHoveredElement() {
+    elements.value.forEach((el) => {
+      el.hovered = false;
+    });
+  }
+
+  function updateGrabbedElement(id: number) {
+    elements.value.forEach((el) => {
+      if (el.id === id) {
+        el.grabbed = true;
+      } else {
+        el.grabbed = false;
+      }
+    });
+  }
+
+  function resetGrabbedElement() {
+    elements.value.forEach((el) => {
+      el.grabbed = false;
+    });
+  }
+
   return {
     elements,
+    getElement,
     updateElements,
     updateElementsStartXY,
+    updateElementCurrentXY,
     scaleElements,
-    updateScale,
     updateElementsScale,
+    updateHoveredElement,
+    resetHoveredElement,
+    updateGrabbedElement,
+    resetGrabbedElement,
   };
 });

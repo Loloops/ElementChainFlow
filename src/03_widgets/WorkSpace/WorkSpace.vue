@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
 import { EditorElementFlow } from "@/04_features/EditorElementFlow";
-import { useWorkSpaceFlow, WorkSpaceFlow } from "@/04_features/WorkSpaceFlow";
+import { EditorFlow } from "@/04_features/EditorFlow";
 import { useMouseStore } from "@/05_entities/Mouse";
 
 const mouseStore = useMouseStore();
-const workSpaceFlowStore = useWorkSpaceFlow();
-
 const { updateMousePosition } = mouseStore;
-const { moveWorkSpace } = workSpaceFlowStore;
 
 const handleMouseMove = (event: MouseEvent) => {
   updateMousePosition(event.clientX, event.clientY);
-  moveWorkSpace();
 };
 
 onMounted(() => {
@@ -24,9 +20,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <WorkSpaceFlow>
+  <EditorFlow>
     <EditorElementFlow />
-  </WorkSpaceFlow>
+  </EditorFlow>
 </template>
 
 <style scoped lang="scss"></style>

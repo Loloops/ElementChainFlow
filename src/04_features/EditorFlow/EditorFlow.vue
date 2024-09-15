@@ -1,14 +1,26 @@
 <script setup lang="ts">
-import { useWorkSpaceFlow } from "./model";
+import { watch } from "vue";
+import { useEditorFlow } from "./model/store";
+import { Editor } from "@/05_entities/Editor";
 
-const workSpaceStore = useWorkSpaceFlow();
-const { mouseDown, mouseUp, resize } = workSpaceStore;
+const editorStore = useEditorFlow();
+const { moveWorkSpace, mouseDown, mouseUp, resize } = editorStore;
+
+function handleMouseMove() {
+  console.log("editor move");
+
+  moveWorkSpace();
+}
 
 function handleMouseDown(event: MouseEvent) {
+  console.log("editor move start");
+
   mouseDown(event.clientX, event.clientY);
 }
 
 function handleMouseUp() {
+  console.log("editor move end");
+
   mouseUp();
 }
 
@@ -22,14 +34,15 @@ function handleScroll(event: WheelEvent) {
 </script>
 
 <template>
-  <div
+  <Editor
     class="work-space"
+    @mousemove="handleMouseMove"
     @wheel="handleScroll"
     @mousedown="handleMouseDown"
     @mouseup="handleMouseUp"
   >
     <slot></slot>
-  </div>
+  </Editor>
 </template>
 
 <style scoped lang="scss">

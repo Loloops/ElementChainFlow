@@ -1,4 +1,4 @@
-import { ElementTypes } from "@/05_entities/ToolBarButtonAddElement";
+import { ElementTypes } from "@/06_shared/types";
 
 export type Element = {
   id: number;
@@ -14,4 +14,6 @@ export type Element = {
     currentY: number;
   };
   type: ElementTypes;
+  hovered: boolean;
+  grabbed: boolean;
 };

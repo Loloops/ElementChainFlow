@@ -17,5 +17,12 @@
   cursor: grab;
   transform: scale(1);
   transform-origin: left top 0px;
+  z-index: 1;
+  &.grab {
+    z-index: 2;
+  }
+  &.hover {
+    z-index: 2;
+  }
 }
 </style>

@@ -17,6 +17,8 @@ export function useToolBarAddElement() {
         currentY: 0,
       },
       type,
+      hovered: false,
+      grabbed: false,
     };
 
     store.updateElements(newElement);
