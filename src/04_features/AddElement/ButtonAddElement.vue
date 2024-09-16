@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useStoreElement } from "@/05_entities/ElementItem/model/store";
-
-import { ButtonToolBar } from "@/06_shared/components/ButtonToolBar";
+import { ButtonUI } from "@/06_shared/components/ButtonUI";
 
 const storeElements = useStoreElement();
 
@@ -11,9 +10,9 @@ function handleAddElement() {
 </script>
 
 <template>
-  <ButtonToolBar @click="handleAddElement()">
+  <ButtonUI @click="handleAddElement()">
     <slot></slot>
-  </ButtonToolBar>
+  </ButtonUI>
 </template>
 
 <style scoped lang="scss"></style>

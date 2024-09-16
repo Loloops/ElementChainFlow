@@ -1,8 +1,7 @@
 <script setup lang="ts">
-<<<<<<< HEAD
-import {onMounted, onUnmounted} from "vue";
-import {WorkSpaceFlow} from "@/04_features/WorkSpaceFlow";
-import {useMouseStore} from "@/05_entities/Mouse";
+import { onMounted, onUnmounted } from "vue";
+import { WorkSpaceFlow } from "@/04_features/WorkSpaceFlow";
+import { useMouseStore } from "@/05_entities/Mouse";
 
 const { windowMouse } = useMouseStore();
 
