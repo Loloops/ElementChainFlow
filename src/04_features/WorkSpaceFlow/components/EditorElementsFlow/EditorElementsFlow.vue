@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { Component } from "vue";
-import {
-  EditorElement,
-  useStoreEditorElements,
-} from "@/05_entities/EditorElement";
+import { useStoreEditorElements } from "./store";
+import { EditorElement } from "@/05_entities/EditorElement";
 import { CircleItem } from "@/06_shared/components/CircleItem";
 import { SquareItem } from "@/06_shared/components/SquareItem";
 import { ElementTypes } from "@/06_shared/model";
@@ -33,7 +31,7 @@ const elementComponents: Record<ElementTypes, Component> = {
   </ul>
 </template>
 
-<style scoped>
+<style scoped type="scss">
 .editor-field {
   padding: 0;
   margin: 10px 5px;
@@ -42,5 +40,7 @@ const elementComponents: Record<ElementTypes, Component> = {
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
+  float: left;
+  width: 100%;
 }
 </style>

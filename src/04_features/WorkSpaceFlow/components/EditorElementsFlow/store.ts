@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { Element } from "@/05_entities/EditorElement";
+import { MouseState } from "@/05_entities/Mouse";
 import { ElementTypes } from "@/06_shared/model";
 
 export const useStoreEditorElements = defineStore("editorElements", () => {
@@ -26,10 +27,10 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
         transform: "scale(1)",
       },
       coords: {
-        x_start: 550,
-        y_start: 400,
-        currentX: 550,
-        currentY: 400,
+        x_start: 300,
+        y_start: 100,
+        currentX: 300,
+        currentY: 100,
       },
       type: "circle",
     },
@@ -40,8 +41,8 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     const newElement: Element = {
       id: elements.value.length + 1,
       styles: {
-        position: "relative",
-        transform: `scale(${scaleElements.value})`,
+        position: "static",
+        transform: `scale(1)`,
       },
       coords: {
         x_start: 0,
@@ -56,32 +57,15 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
   }
 
   function updateStartXY() {
-    elements.value = elements.value.map((el) => ({
-      ...el,
-      coords: {
-        ...el.coords,
-        x_start: el.coords.currentX,
-        y_start: el.coords.currentY,
-      },
-    }));
+    elements.value.forEach((el) => {
+      el.coords.x_start = el.coords.currentX;
+      el.coords.y_start = el.coords.currentY;
+    });
   }
 
-  function moveElements({
-    x,
-    y,
-    move,
-    startX,
-    startY,
-  }: {
-    startX: number;
-    startY: number;
-    x: number;
-    y: number;
-    move: boolean;
-  }) {
+  function moveElements({ startX, startY, x, y, move }: MouseState) {
     if (!move) {
       updateStartXY();
-
       return;
     }
 
@@ -99,19 +83,33 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     scaleElements.value = newScale;
   }
 
-  function updateCoordForWorkSpaceResize(deltaScale: number) {
-    elements.value = elements.value.map((el) => ({
-      ...el,
-      styles: {
-        ...el.styles,
-        transform: `scale(${scaleElements.value})`, //тут надо использовать не deltaScale, а новое значение scaleElements
-      },
-      coords: {
-        ...el.coords,
-        currentX: el.coords.currentX * deltaScale,
-        currentY: el.coords.currentY * deltaScale,
-      },
-    }));
+  function updateCoordsForWorkSpaceResize(deltaScale: number) {
+    elements.value.forEach((el) => {
+      if (el.styles.position !== "static") {
+        el.styles.transform = `scale(${scaleElements.value})`;
+        el.coords.currentX = el.coords.currentX * deltaScale;
+        el.coords.currentY = el.coords.currentY * deltaScale;
+      }
+    });
+  }
+
+  function resizeElement(event: WheelEvent) {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    const SCALE = 0.05;
+    const scaleDirection = event.deltaY > 0 ? SCALE : -SCALE;
+    const newScaleValue = scaleElements.value * Math.pow(SCALE, scaleDirection);
+    const deltaScale = newScaleValue / scaleElements.value;
+
+    if (newScaleValue > 2 || newScaleValue < 0.5) {
+      return;
+    }
+
+    changeScaleElements(newScaleValue);
+    updateCoordsForWorkSpaceResize(deltaScale);
+    updateStartXY();
   }
 
   return {
@@ -121,6 +119,7 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     moveElements,
     scaleElements,
     changeScaleElements,
-    updateCoordForWorkSpaceResize,
+    updateCoordsForWorkSpaceResize,
+    resizeElement,
   };
 });

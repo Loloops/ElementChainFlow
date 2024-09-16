@@ -1,21 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
-
-type MouseState = {
-  startX: number;
-  startY: number;
-  x: number;
-  y: number;
-  move: boolean;
-};
-
-type MouseStore = {
-  setCoords(x: number, y: number): void;
-  setStartCoords(x: number, y: number): void;
-  changeMove(flag: boolean): void;
-} & MouseState;
-
-/* type aaa = WindowMouse & SetCoordsFunction; */
+import { MouseStore } from "./types";
 
 export const useMouseStore = defineStore("mouseStore", () => {
   const windowMouse = reactive<MouseStore>({
