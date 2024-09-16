@@ -1,27 +1,29 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
-import { EditorElementFlow } from "@/04_features/EditorElementFlow";
-import { useMouseStore } from "@/04_features/MouseTracking/model/useMoseStore";
 import { WorkSpaceFlow } from "@/04_features/WorkSpaceFlow";
+import { useMouseStore } from "@/05_entities/Mouse";
 
 const { windowMouse } = useMouseStore();
 
 const handleMouseDown = (event: MouseEvent) => {
   const currentTarget = event.currentTarget as HTMLElement;
-
+  // event.preventDefault();
   windowMouse.setStartCoords(event.clientX, event.clientY);
   windowMouse.setCoords(event.clientX, event.clientY);
   // windowMouse.changeMove(true);
 
   const handleMouseMove = (event: MouseEvent) => {
+    // event.preventDefault();
     windowMouse.setCoords(event.clientX, event.clientY);
     windowMouse.changeMove(true);
   };
 
   const handleMouseUp = (event: MouseEvent) => {
+    windowMouse.setStartCoords(event.clientX, event.clientY);
     windowMouse.setCoords(event.clientX, event.clientY);
     windowMouse.changeMove(false);
     currentTarget.removeEventListener("mousemove", handleMouseMove);
+    currentTarget.removeEventListener("mouseup", handleMouseUp);
   };
 
   currentTarget.addEventListener("mousemove", handleMouseMove);
@@ -37,9 +39,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <WorkSpaceFlow :coords="windowMouse">
-    <EditorElementFlow />
-  </WorkSpaceFlow>
+  <WorkSpaceFlow :coords="windowMouse"></WorkSpaceFlow>
 </template>
 
 <style scoped lang="scss"></style>

@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { defineProps, watch } from "vue";
 import { Props } from "./types";
-import { useMoveElements } from "@/05_entities/EditorElement/model/useMoveElements";
+import { EditorElementsFlow } from "@/04_features/WorkSpaceFlow/components/EditorElementsFlow";
+import { useStoreEditorElements } from "@/04_features/WorkSpaceFlow/components/EditorElementsFlow/store";
 
 const props = defineProps<Props>();
+const storeEditorElements = useStoreEditorElements();
 
 watch(
   () => props.coords,
   (newValue) => {
-    console.log(1);
-    useMoveElements(newValue);
+    storeEditorElements.moveElements(newValue);
   },
   { deep: true }
 );
 </script>
 
 <template>
-  <div class="work-space">
-    <slot></slot>
+  <div class="work-space" @wheel="storeEditorElements.resizeElement">
+    <EditorElementsFlow />
   </div>
 </template>
 

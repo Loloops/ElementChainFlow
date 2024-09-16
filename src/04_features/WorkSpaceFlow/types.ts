@@ -1,11 +1,7 @@
+import { MouseState } from "@/05_entities/Mouse";
+
 type Props = {
-  coords: {
-    startX: number;
-    startY: number;
-    x: number;
-    y: number;
-    move: boolean;
-  };
+  coords: MouseState;
 };
 
 export { Props };

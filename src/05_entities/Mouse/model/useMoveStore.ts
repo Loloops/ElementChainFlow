@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
+import { MouseStore } from "./types";
 
 export const useMouseStore = defineStore("mouseStore", () => {
-  const windowMouse = reactive({
+  const windowMouse = reactive<MouseStore>({
     startX: 0,
     startY: 0,
     x: 0,

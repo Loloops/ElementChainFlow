@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { Props } from "./type";
-import { useStoreEditorElements } from "@/05_entities/EditorElement";
+import { useStoreEditorElements } from "@/04_features/WorkSpaceFlow/components/EditorElementsFlow/store";
 import { ToolBarButtonAddElement } from "@/05_entities/ToolBarButtonAddElement";
 import { ElementTypes } from "@/06_shared/model";
 
