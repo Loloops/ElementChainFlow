@@ -1,5 +1,9 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { ListButtonsToolBar } from "./components/ListButtonsToolBar";
+=======
+import ListButtonsToolBar from "./components/ListButtonsToolBar/ListButtonsToolBar.vue";
+>>>>>>> 8400b639c178fd1242c3a2eeafca7de9be5fd0aa
 </script>
 
 <template>
