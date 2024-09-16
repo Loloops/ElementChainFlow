@@ -70,12 +70,13 @@ function stopDrag() {
   editorElementStore.updateElementsStartXY();
 }
 
-const currentMove = computed(() => {
+const currentElementMove = computed(() => {
   if (!editorStore.editorCoords.moveEditorElement) {
     return null;
   }
 
   const { x, y } = calculateMove();
+  console.log("ElementMove");
 
   return {
     x,
@@ -93,7 +94,7 @@ function calculateMove() {
   };
 }
 
-watch(currentMove, (move) => {
+watch(currentElementMove, (move) => {
   if (move && elementDragStart.value.id) {
     editorElementStore.updateElementCurrentXY(elementDragStart.value.id, move);
   }

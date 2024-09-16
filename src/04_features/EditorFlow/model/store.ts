@@ -1,4 +1,5 @@
 import { defineStore, storeToRefs } from "pinia";
+import { computed, watch } from "vue";
 import { useEditorStore } from "@/05_entities/Editor";
 import { useStoreEditorElements } from "@/05_entities/EditorElement";
 import { useMouseStore } from "@/05_entities/Mouse";
@@ -32,24 +33,46 @@ export const useEditorFlow = defineStore("editorFlow", () => {
     editorCoords.value.moveEditor = false;
   }
 
-  function moveWorkSpace() {
+  const currentWorkSpaceMove = computed(() => {
     if (
       !editorCoords.value.moveEditor ||
       editorCoords.value.moveEditorElement
     ) {
       updateElementsStartXY();
 
-      return;
+      return null;
     }
-
+    console.log("WorkSpaceMove");
     const deltaX = windowMouse.value.x - editorCoords.value.startX;
     const deltaY = windowMouse.value.y - editorCoords.value.startY;
 
+    return {
+      deltaX,
+      deltaY,
+    };
+  });
+
+  function moveWorkSpace({
+    deltaX,
+    deltaY,
+  }: {
+    deltaX: number;
+    deltaY: number;
+  }) {
     elements.value.forEach((el) => {
       el.coords.currentX = el.coords.x_start + deltaX;
       el.coords.currentY = el.coords.y_start + deltaY;
     });
   }
+
+  watch(currentWorkSpaceMove, (move) => {
+    if (move) {
+      moveWorkSpace({
+        deltaX: move.deltaX,
+        deltaY: move.deltaY,
+      });
+    }
+  });
 
   function resize(deltaY: number) {
     const SCALE = 0.05;

@@ -3,14 +3,7 @@ import { useEditorFlow } from "./model/store";
 import { Editor } from "@/05_entities/Editor";
 
 const editorStore = useEditorFlow();
-const { moveWorkSpace, mouseDown, mouseUp, resize } = editorStore;
-
-function handleMouseMove() {
-  /* попробовать все таки отказаться вот от этого */
-  console.log("editor move");
-
-  moveWorkSpace();
-}
+const { mouseDown, mouseUp, resize } = editorStore;
 
 function handleMouseDown(event: MouseEvent) {
   console.log("editor move start");
@@ -36,7 +29,6 @@ function handleScroll(event: WheelEvent) {
 <template>
   <Editor
     class="work-space"
-    @mousemove="handleMouseMove"
     @wheel="handleScroll"
     @mousedown="handleMouseDown"
     @mouseup="handleMouseUp"
