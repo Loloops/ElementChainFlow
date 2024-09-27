@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Component, computed, ref, watch } from "vue";
-import { EventTypeElementFlow } from "./model/types";
 import { useEditorStore } from "@/05_entities/Editor";
 import {
   EditorElement,
@@ -25,32 +24,30 @@ const elementDragStart = ref({
   id: 0,
 });
 
-function handleMouseEvent(
-  eventType: EventTypeElementFlow,
-  event: MouseEvent,
-  id: number
-) {
-  switch (eventType) {
-    case "over":
-      editorElementStore.updateHoveredElement(id);
-      break;
-    case "leave":
-      editorElementStore.resetHoveredElement();
-      break;
-    case "down":
-      startDrag(id);
-      break;
-    case "up":
-      stopDrag();
-      break;
-  }
+function handleMouseOver(id: number) {
+  editorElementStore.updateHoveredElement(id);
 }
 
-function startDrag(id: number) {
+function handleMouseLeave() {
+  editorElementStore.resetHoveredElement();
+}
+
+function handleMouseDown(id: number, event: Event) {
   const element = editorElementStore.getElement(id);
 
   if (!element) {
     return;
+  }
+
+  if (element.styles.position === "static") {
+    const targetElement = event.currentTarget as HTMLElement;
+
+    editorElementStore.updateElementCurrentXY(id, {
+      x: targetElement.offsetLeft,
+      y: targetElement.offsetTop,
+    });
+
+    editorElementStore.updateStylePositionElement(id);
   }
 
   elementDragStart.value = {
@@ -63,7 +60,7 @@ function startDrag(id: number) {
   editorElementStore.updateGrabbedElement(id);
 }
 
-function stopDrag() {
+function handleMouseUp() {
   elementDragStart.value.id = 0;
   editorStore.editorCoords.moveEditorElement = false;
   editorElementStore.resetGrabbedElement();
@@ -114,10 +111,10 @@ watch(currentElementMove, (move) => {
         grab: element.grabbed,
         hover: element.hovered && !element.grabbed,
       }"
-      @mouseover="handleMouseEvent('over', $event, element.id)"
-      @mouseleave="handleMouseEvent('leave', $event, element.id)"
-      @mousedown="handleMouseEvent('down', $event, element.id)"
-      @mouseup="handleMouseEvent('up', $event, element.id)"
+      @mouseover="handleMouseOver(element.id)"
+      @mouseleave="handleMouseLeave"
+      @mousedown.left="handleMouseDown(element.id, $event)"
+      @mouseup="handleMouseUp"
     >
       <template v-if="elementComponents[element.type]">
         <component :is="elementComponents[element.type]" />
@@ -135,5 +132,7 @@ watch(currentElementMove, (move) => {
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
+  float: left;
+  width: 100%;
 }
 </style>

@@ -1,50 +1,41 @@
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 import { computed, watch } from "vue";
 import { useEditorStore } from "@/05_entities/Editor";
 import { useStoreEditorElements } from "@/05_entities/EditorElement";
 import { useMouseStore } from "@/05_entities/Mouse";
+
+//Перелопатить весь файл
 
 export const useEditorFlow = defineStore("editorFlow", () => {
   const mouseStore = useMouseStore();
   const storeEditorElements = useStoreEditorElements();
   const editorStore = useEditorStore();
 
-  /* destruct editorStore */
-  const { editorCoords } = storeToRefs(editorStore);
-  const { updateStartXY } = editorStore;
-
-  /* destruct mouseStore */
-  const { windowMouse } = storeToRefs(mouseStore);
-  const { updateMousePosition } = mouseStore;
-
-  /* destruct storeEditorElements */
-  const { elements, scaleElements } = storeToRefs(storeEditorElements);
-  const { updateElementsScale, updateElementsStartXY } = storeEditorElements;
-
   function mouseDown(x: number, y: number) {
-    if (!editorCoords.value.moveEditorElement) {
-      editorCoords.value.moveEditor = true;
-      updateStartXY(x, y);
-      updateMousePosition(x, y);
+    if (!editorStore.editorCoords.moveEditorElement) {
+      editorStore.editorCoords.moveAllElements = true;
+      mouseStore.updateStartXY(x, y);
+      mouseStore.updateCurrentXY(x, y);
     }
   }
 
   function mouseUp() {
-    editorCoords.value.moveEditor = false;
+    editorStore.editorCoords.moveAllElements = false;
   }
 
-  const currentWorkSpaceMove = computed(() => {
+  const getMouseMove = computed(() => {
     if (
-      !editorCoords.value.moveEditor ||
-      editorCoords.value.moveEditorElement
+      !editorStore.editorCoords.moveAllElements ||
+      editorStore.editorCoords.moveEditorElement
     ) {
-      updateElementsStartXY();
+      storeEditorElements.updateElementsStartXY();
 
       return null;
     }
     console.log("WorkSpaceMove");
-    const deltaX = windowMouse.value.x - editorCoords.value.startX;
-    const deltaY = windowMouse.value.y - editorCoords.value.startY;
+    //Вынести в мышь вместе со стартовыми координатами
+    const deltaX = mouseStore.windowMouse.x - mouseStore.windowMouse.startX;
+    const deltaY = mouseStore.windowMouse.y - mouseStore.windowMouse.startY;
 
     return {
       deltaX,
@@ -59,13 +50,13 @@ export const useEditorFlow = defineStore("editorFlow", () => {
     deltaX: number;
     deltaY: number;
   }) {
-    elements.value.forEach((el) => {
+    storeEditorElements.elements.forEach((el) => {
       el.coords.currentX = el.coords.x_start + deltaX;
       el.coords.currentY = el.coords.y_start + deltaY;
     });
   }
 
-  watch(currentWorkSpaceMove, (move) => {
+  watch(getMouseMove, (move) => {
     if (move) {
       moveWorkSpace({
         deltaX: move.deltaX,
@@ -76,17 +67,21 @@ export const useEditorFlow = defineStore("editorFlow", () => {
 
   function resize(deltaY: number) {
     const SCALE = 0.05;
-    const newScaleValue = calculateNewScale(deltaY, scaleElements.value, SCALE);
+    const newScaleValue = calculateNewScale(
+      deltaY,
+      storeEditorElements.scaleElements,
+      SCALE
+    );
 
     if (newScaleValue > 2 || newScaleValue < 0.5) {
       return;
     }
 
-    const deltaScale = newScaleValue / scaleElements.value;
+    const deltaScale = newScaleValue / storeEditorElements.scaleElements;
 
-    scaleElements.value = newScaleValue;
-    updateElementsScale(deltaScale);
-    updateElementsStartXY();
+    storeEditorElements.scaleElements = newScaleValue;
+    storeEditorElements.updateElementsScale(deltaScale);
+    storeEditorElements.updateElementsStartXY();
   }
 
   function calculateNewScale(

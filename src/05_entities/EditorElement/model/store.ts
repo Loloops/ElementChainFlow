@@ -106,6 +106,14 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     });
   }
 
+  function updateStylePositionElement(id: number) {
+    elements.value.forEach((el) => {
+      if (el.id === id) {
+        el.styles.position = "absolute";
+      }
+    });
+  }
+
   return {
     elements,
     getElement,
@@ -118,5 +126,6 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     resetHoveredElement,
     updateGrabbedElement,
     resetGrabbedElement,
+    updateStylePositionElement,
   };
 });
