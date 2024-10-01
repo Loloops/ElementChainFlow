@@ -1,16 +1,10 @@
-import { Component } from "vue";
+import { ToolbarItem } from "./types";
 import { CircleElementSvg } from "@/06_shared/components/CircleElementSvg";
 import { SquareElementSvg } from "@/06_shared/components/SquareElementSvg";
-import { ElementTypes } from "@/06_shared/model";
-
-type ToolbarItem = {
-  id: number;
-  type: ElementTypes;
-  icon: Component;
-};
+import { ElementType } from "@/06_shared/types";
 
 export class ToolbarItemFactory {
-  static create(type: ElementTypes): ToolbarItem {
+  static create(type: ElementType): ToolbarItem {
     switch (type) {
       case "square":
         return {

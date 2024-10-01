@@ -1,8 +1,10 @@
-import { ElementTypes } from "@/06_shared/model";
+import { ElementType } from "@/06_shared/types";
 
 export type Element = {
   id: number;
   styles: {
+    position: "static" | "absolute";
+    transform: string;
     [key: string]: string | number;
   };
   coords: {
@@ -11,5 +13,7 @@ export type Element = {
     currentX: number;
     currentY: number;
   };
-  type: ElementTypes;
+  type: ElementType;
+  hovered: boolean;
+  grabbed: boolean;
 };

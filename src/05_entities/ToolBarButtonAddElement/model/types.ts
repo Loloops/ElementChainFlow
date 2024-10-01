@@ -1,10 +1,8 @@
+import { Component } from "vue";
 import { ElementType } from "@/06_shared/types";
 
-type Element = {
+export type ToolbarItem = {
   id: number;
-  x: number;
-  y: number;
   type: ElementType;
+  icon: Component;
 };
-
-export { Element };

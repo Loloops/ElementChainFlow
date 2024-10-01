@@ -1,4 +1,3 @@
-import { MouseState, MouseStore } from "./model/types";
-import { useMouseStore } from "./model/useMoveStore";
+import { useMouseStore } from "./model/useMoseStore";
 
-export { useMouseStore, MouseState, MouseStore };
+export { useMouseStore };

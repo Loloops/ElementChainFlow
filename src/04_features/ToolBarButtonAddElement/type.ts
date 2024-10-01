@@ -1,7 +1,7 @@
-import { ElementTypes } from "@/06_shared/model";
+import { ElementType } from "@/06_shared/types";
 
 type Props = {
-  elementType: ElementTypes;
+  elementType: ElementType;
 };
 
 export { Props };
