@@ -42,6 +42,7 @@ function handleMouseDown(id: number, event: Event) {
   if (element.styles.position === "static") {
     const targetElement = event.currentTarget as HTMLElement;
 
+    editorElementStore.updateNewElementScale(id);
     editorElementStore.updateElementCurrentXY(id, {
       x: targetElement.offsetLeft,
       y: targetElement.offsetTop,

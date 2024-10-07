@@ -8,7 +8,7 @@ export function useToolBarAddElement() {
       id: store.elements.length + 1,
       styles: {
         position: "static",
-        transform: `scale(${store.scaleElements})`,
+        transform: `scale(1)`,
       },
       coords: {
         x_start: 0,
