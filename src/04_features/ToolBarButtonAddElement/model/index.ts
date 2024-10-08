@@ -9,6 +9,8 @@ export function useToolBarAddElement() {
       styles: {
         position: "static",
         transform: `scale(1)`,
+        width: 50,
+        height: 50,
       },
       coords: {
         x_start: 0,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Component, computed, ref, watch } from "vue";
+import { Component, computed, nextTick, ref, watch } from "vue";
 import { useEditorStore } from "@/05_entities/Editor";
 import {
   EditorElement,
@@ -41,11 +41,36 @@ function handleMouseDown(id: number, event: Event) {
 
   if (element.styles.position === "static") {
     const targetElement = event.currentTarget as HTMLElement;
-
     editorElementStore.updateNewElementScale(id);
+    console.log(editorElementStore.scaleElements);
+    let widthElem = element.styles.width * editorElementStore.scaleElements;
+    let heightElem = element.styles.height * editorElementStore.scaleElements;
+
+    /* const { width, height } = targetElement.getBoundingClientRect(); */
+    console.log(widthElem, heightElem);
+
+    let innerClickLeft =
+      mouseStore.windowMouse.x -
+      targetElement.getBoundingClientRect().left -
+      widthElem;
+
+    let innerClickRightPX =
+      element.styles.width -
+      (mouseStore.windowMouse.x - targetElement.getBoundingClientRect().left);
+
+    let innerClickRightPercent =
+      (innerClickRightPX / element.styles.width) * 100;
+    let c = (widthElem / 100) * innerClickRightPercent;
+
     editorElementStore.updateElementCurrentXY(id, {
-      x: targetElement.offsetLeft,
-      y: targetElement.offsetTop,
+      x: targetElement.getBoundingClientRect().left + innerClickLeft + c,
+      y:
+        mouseStore.windowMouse.y -
+        heightElem / 2 -
+        (targetElement.getBoundingClientRect().top -
+          targetElement.offsetTop) /*  -
+        (mouseStore.windowMouse.y - targetElement.getBoundingClientRect().top) -
+        57, */,
     });
 
     editorElementStore.updateStylePositionElement(id);
@@ -105,6 +130,8 @@ watch(currentElementMove, (move) => {
       :key="element.id"
       :style="[
         element.styles,
+        { width: element.styles.width + 'px' },
+        { height: element.styles.height + 'px' },
         { top: element.coords.currentY + 'px' },
         { left: element.coords.currentX + 'px' },
       ]"

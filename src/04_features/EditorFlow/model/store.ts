@@ -82,7 +82,12 @@ export const useEditorFlow = defineStore("editorFlow", () => {
     storeEditorElements.updateScale(
       newScaleValue / storeEditorElements.scaleElements
     );
-    console.log("scale", newScaleValue);
+    console.log({
+      newScaleValue,
+      delta: newScaleValue / storeEditorElements.scaleElements,
+      eqDelta: 50 * (newScaleValue / storeEditorElements.scaleElements),
+      eq: 50 * newScaleValue,
+    });
     storeEditorElements.scaleElements = newScaleValue;
     storeEditorElements.updateElementsScale(/* deltaScale */);
     storeEditorElements.updateElementsStartXY();
