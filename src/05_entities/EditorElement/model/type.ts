@@ -5,6 +5,8 @@ export type Element = {
   styles: {
     position: "static" | "absolute";
     transform: string;
+    width: number;
+    height: number;
     [key: string]: string | number;
   };
   coords: {

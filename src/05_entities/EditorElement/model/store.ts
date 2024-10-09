@@ -9,6 +9,8 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
       styles: {
         position: "absolute",
         transform: "scale(1)",
+        width: 50,
+        height: 50,
       },
       coords: {
         x_start: 250,
@@ -25,6 +27,8 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
       styles: {
         position: "absolute",
         transform: "scale(1)",
+        width: 50,
+        height: 50,
       },
       coords: {
         x_start: 550,
@@ -38,6 +42,11 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     },
   ]);
   const scaleElements = ref(1);
+  const deltaScale = ref(1);
+
+  function updateScale(newScale: number) {
+    deltaScale.value = newScale;
+  }
 
   function getElement(id: number) {
     return elements.value.find((el) => el.id === id);
@@ -66,12 +75,33 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     });
   }
 
-  function updateElementsScale(deltaScale: number) {
+  function updateNewElementScale(id: number) {
     elements.value.forEach((el) => {
-      el.styles.transform = `scale(${scaleElements.value})`;
-      el.coords.currentX = el.coords.currentX * deltaScale;
-      el.coords.currentY = el.coords.currentY * deltaScale;
+      if (el.id === id) {
+        updateElementScale(el);
+      }
     });
+  }
+
+  function updateElementsScale(/* deltaScale */) {
+    elements.value.forEach((el) => {
+      if (el.styles.position === "static") return;
+
+      updateElementScale(el);
+    });
+  }
+
+  function updateElementScale(el: Element) {
+    el.styles.transform = `scale(${scaleElements.value})`;
+    el.coords.currentX = el.coords.currentX * deltaScale.value;
+    el.coords.currentY = el.coords.currentY * deltaScale.value;
+    /* console.log({
+      deltaScale: deltaScale.value,
+      width: el.styles.width,
+      eq: el.styles.width * deltaScale.value,
+    });
+    el.styles.width = el.styles.width * deltaScale.value;
+    el.styles.height = el.styles.height * deltaScale.value; */
   }
 
   function updateHoveredElement(id: number) {
@@ -127,5 +157,8 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     updateGrabbedElement,
     resetGrabbedElement,
     updateStylePositionElement,
+    updateScale,
+    updateNewElementScale,
+    deltaScale,
   };
 });

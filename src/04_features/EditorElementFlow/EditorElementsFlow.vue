@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Component, computed, ref, watch } from "vue";
+import { Component, computed, nextTick, ref, watch } from "vue";
 import { useEditorStore } from "@/05_entities/Editor";
 import {
   EditorElement,
@@ -41,10 +41,58 @@ function handleMouseDown(id: number, event: Event) {
 
   if (element.styles.position === "static") {
     const targetElement = event.currentTarget as HTMLElement;
+    editorElementStore.updateNewElementScale(id);
+    console.log(editorElementStore.scaleElements);
+    let widthElem = element.styles.width * editorElementStore.scaleElements;
+    let heightElem = element.styles.height * editorElementStore.scaleElements;
+
+    /* const { width, height } = targetElement.getBoundingClientRect(); */
+    console.log(widthElem, heightElem);
+
+    /* ---X--- */
+    let innerRightResizeElementClick =
+      mouseStore.windowMouse.x -
+      targetElement.getBoundingClientRect().left -
+      widthElem;
+    let innerRightBaseElementClickPercent =
+      ((element.styles.width -
+        (mouseStore.windowMouse.x -
+          targetElement.getBoundingClientRect().left)) /
+        element.styles.width) *
+      100;
+    let percentXFromElementResize =
+      (widthElem / 100) * innerRightBaseElementClickPercent;
+
+    /* ---Y--- */
+
+    let menuHeight =
+      targetElement.getBoundingClientRect().top - targetElement.offsetTop;
+
+    let innerBottomResizeElementClick =
+      mouseStore.windowMouse.y -
+      targetElement.getBoundingClientRect().top -
+      heightElem;
+
+    let innerBottomBaseElementClickPercent =
+      ((element.styles.height -
+        (mouseStore.windowMouse.y -
+          targetElement.getBoundingClientRect().top)) /
+        element.styles.height) *
+      100;
+
+    let percentYFromElementResize =
+      (heightElem / 100) * innerBottomBaseElementClickPercent;
 
     editorElementStore.updateElementCurrentXY(id, {
-      x: targetElement.offsetLeft,
-      y: targetElement.offsetTop,
+      x:
+        targetElement.getBoundingClientRect().left +
+        innerRightResizeElementClick +
+        percentXFromElementResize,
+      y:
+        targetElement.getBoundingClientRect().top +
+        innerBottomResizeElementClick +
+        percentYFromElementResize -
+        menuHeight,
     });
 
     editorElementStore.updateStylePositionElement(id);
@@ -104,6 +152,8 @@ watch(currentElementMove, (move) => {
       :key="element.id"
       :style="[
         element.styles,
+        { width: element.styles.width + 'px' },
+        { height: element.styles.height + 'px' },
         { top: element.coords.currentY + 'px' },
         { left: element.coords.currentX + 'px' },
       ]"
