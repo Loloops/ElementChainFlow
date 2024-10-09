@@ -49,28 +49,50 @@ function handleMouseDown(id: number, event: Event) {
     /* const { width, height } = targetElement.getBoundingClientRect(); */
     console.log(widthElem, heightElem);
 
-    let innerClickLeft =
+    /* ---X--- */
+    let innerRightResizeElementClick =
       mouseStore.windowMouse.x -
       targetElement.getBoundingClientRect().left -
       widthElem;
+    let innerRightBaseElementClickPercent =
+      ((element.styles.width -
+        (mouseStore.windowMouse.x -
+          targetElement.getBoundingClientRect().left)) /
+        element.styles.width) *
+      100;
+    let percentXFromElementResize =
+      (widthElem / 100) * innerRightBaseElementClickPercent;
 
-    let innerClickRightPX =
-      element.styles.width -
-      (mouseStore.windowMouse.x - targetElement.getBoundingClientRect().left);
+    /* ---Y--- */
 
-    let innerClickRightPercent =
-      (innerClickRightPX / element.styles.width) * 100;
-    let c = (widthElem / 100) * innerClickRightPercent;
+    let menuHeight =
+      targetElement.getBoundingClientRect().top - targetElement.offsetTop;
+
+    let innerBottomResizeElementClick =
+      mouseStore.windowMouse.y -
+      targetElement.getBoundingClientRect().top -
+      heightElem;
+
+    let innerBottomBaseElementClickPercent =
+      ((element.styles.height -
+        (mouseStore.windowMouse.y -
+          targetElement.getBoundingClientRect().top)) /
+        element.styles.height) *
+      100;
+
+    let percentYFromElementResize =
+      (heightElem / 100) * innerBottomBaseElementClickPercent;
 
     editorElementStore.updateElementCurrentXY(id, {
-      x: targetElement.getBoundingClientRect().left + innerClickLeft + c,
+      x:
+        targetElement.getBoundingClientRect().left +
+        innerRightResizeElementClick +
+        percentXFromElementResize,
       y:
-        mouseStore.windowMouse.y -
-        heightElem / 2 -
-        (targetElement.getBoundingClientRect().top -
-          targetElement.offsetTop) /*  -
-        (mouseStore.windowMouse.y - targetElement.getBoundingClientRect().top) -
-        57, */,
+        targetElement.getBoundingClientRect().top +
+        innerBottomResizeElementClick +
+        percentYFromElementResize -
+        menuHeight,
     });
 
     editorElementStore.updateStylePositionElement(id);
