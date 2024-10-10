@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
-import { useToolBarAddElement } from "./model";
+import { useToolBarAddElement } from "./model/useToolBarAddElement";
 import { Props } from "./type";
 import { ToolBarButtonAddElement } from "@/05_entities/ToolBarButtonAddElement";
 import { ElementType } from "@/06_shared/types";
