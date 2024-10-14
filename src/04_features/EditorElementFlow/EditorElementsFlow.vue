@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Component, computed, ref, watch } from "vue";
+import { useMouseDownDragControll } from "./model/useMouseDownDragControll";
 import { useEditorStore } from "@/05_entities/Editor";
 import {
   EditorElement,
-  Element,
   useStoreEditorElements,
 } from "@/05_entities/EditorElement";
 import { useMouseStore } from "@/05_entities/Mouse";
@@ -36,66 +36,9 @@ function handleMouseLeave() {
 function handleMouseDown(id: number, event: Event) {
   const element = editorElementStore.getElement(id);
 
-  if (!element) {
-    return;
-  }
+  if (!element) return;
 
-  if (element.styles.position === "static") {
-    const targetElement = event.currentTarget as HTMLElement;
-    const menuHeight =
-      targetElement.getBoundingClientRect().top - targetElement.offsetTop;
-
-    editorElementStore.updateNewElementScale(id);
-
-    let widthElem = element.styles.width * editorElementStore.scaleElements;
-    let heightElem = element.styles.height * editorElementStore.scaleElements;
-
-    const getCoordsMouseOverNewElement = function (
-      element: Element,
-      position: "y" | "x"
-    ) {
-      let pos: "left" | "top" = position === "x" ? "left" : "top";
-      let whResize = position === "x" ? widthElem : heightElem;
-      let wh: "width" | "height" = position === "x" ? "width" : "height";
-
-      let innerResizeElementClick =
-        mouseStore.windowMouse[position] -
-        targetElement.getBoundingClientRect()[pos] -
-        whResize;
-
-      let innerBaseElementClickPercent =
-        ((element.styles[wh] -
-          (mouseStore.windowMouse[position] -
-            targetElement.getBoundingClientRect()[pos])) /
-          element.styles[wh]) *
-        100;
-
-      let percentFromElementResize =
-        (whResize / 100) * innerBaseElementClickPercent;
-
-      return (
-        targetElement.getBoundingClientRect()[pos] +
-        innerResizeElementClick +
-        percentFromElementResize
-      );
-    };
-
-    editorElementStore.updateElementCurrentXY(id, {
-      x: getCoordsMouseOverNewElement(element, "x"),
-      y: getCoordsMouseOverNewElement(element, "y") - menuHeight,
-    });
-
-    editorElementStore.updateStylePositionElement(id);
-  }
-
-  elementDragStart.value = {
-    id,
-    x: mouseStore.windowMouse.x - element.coords.currentX,
-    y: mouseStore.windowMouse.y - element.coords.currentY,
-  };
-
-  editorStore.editorCoords.moveEditorElement = true;
-  editorElementStore.updateGrabbedElement(id);
+  elementDragStart.value = useMouseDownDragControll()(id, event, element);
 }
 
 function handleMouseUp() {

@@ -1,3 +1,3 @@
-import { useMouseStore } from "./model/useMoseStore";
+import { useMouseStore } from "./model/mouseStore";
 
 export { useMouseStore };

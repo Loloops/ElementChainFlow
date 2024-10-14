@@ -2,6 +2,8 @@ import { useEditorStore } from "@/05_entities/Editor";
 import { Element, useStoreEditorElements } from "@/05_entities/EditorElement";
 import { useMouseStore } from "@/05_entities/Mouse";
 
+type optionDragStar = { id: number; x: number; y: number };
+
 export function useMouseDownDragControll() {
   const editorElementStore = useStoreEditorElements();
   const mouseStore = useMouseStore();
@@ -10,18 +12,8 @@ export function useMouseDownDragControll() {
   return function mouseDownDragControll(
     id: number,
     event: Event,
-    elementDragStart: {
-      x: number;
-      y: number;
-      id: number;
-    }
-  ) {
-    const element = editorElementStore.getElement(id);
-
-    if (!element) {
-      return;
-    }
-
+    element: Element
+  ): optionDragStar {
     if (element.styles.position === "static") {
       const targetElement = event.currentTarget as HTMLElement;
       const menuHeight =
@@ -71,13 +63,13 @@ export function useMouseDownDragControll() {
       editorElementStore.updateStylePositionElement(id);
     }
 
-    elementDragStart.value = {
+    editorStore.editorCoords.moveEditorElement = true;
+    editorElementStore.updateGrabbedElement(id);
+
+    return {
       id,
       x: mouseStore.windowMouse.x - element.coords.currentX,
       y: mouseStore.windowMouse.y - element.coords.currentY,
     };
-
-    editorStore.editorCoords.moveEditorElement = true;
-    editorElementStore.updateGrabbedElement(id);
   };
 }
