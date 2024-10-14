@@ -4,8 +4,6 @@ import { useEditorStore } from "@/05_entities/Editor";
 import { useStoreEditorElements } from "@/05_entities/EditorElement";
 import { useMouseStore } from "@/05_entities/Mouse";
 
-//Перелопатить весь файл
-
 export const useEditorFlow = defineStore("editorFlow", () => {
   const mouseStore = useMouseStore();
   const storeEditorElements = useStoreEditorElements();
@@ -33,7 +31,6 @@ export const useEditorFlow = defineStore("editorFlow", () => {
       return null;
     }
     console.log("WorkSpaceMove");
-    //Вынести в мышь вместе со стартовыми координатами
     const deltaX = mouseStore.windowMouse.x - mouseStore.windowMouse.startX;
     const deltaY = mouseStore.windowMouse.y - mouseStore.windowMouse.startY;
 
@@ -77,19 +74,12 @@ export const useEditorFlow = defineStore("editorFlow", () => {
       return;
     }
 
-    /* const deltaScale = newScaleValue / storeEditorElements.scaleElements; */
-
     storeEditorElements.updateScale(
       newScaleValue / storeEditorElements.scaleElements
     );
-    console.log({
-      newScaleValue,
-      delta: newScaleValue / storeEditorElements.scaleElements,
-      eqDelta: 50 * (newScaleValue / storeEditorElements.scaleElements),
-      eq: 50 * newScaleValue,
-    });
+
     storeEditorElements.scaleElements = newScaleValue;
-    storeEditorElements.updateElementsScale(/* deltaScale */);
+    storeEditorElements.updateElementsScale();
     storeEditorElements.updateElementsStartXY();
   }
 
@@ -103,5 +93,5 @@ export const useEditorFlow = defineStore("editorFlow", () => {
     return currentScale * (1 + scaleDirection * scale);
   }
 
-  return { mouseDown, mouseUp, moveWorkSpace, resize };
+  return { mouseDown, mouseUp, resize };
 });

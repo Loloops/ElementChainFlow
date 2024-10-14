@@ -19,10 +19,10 @@
   transform-origin: left top 0px;
   z-index: 1;
   &.grab {
-    z-index: 2;
+    z-index: 999;
   }
   &.hover {
-    z-index: 2;
+    //z-index: 2;
   }
 }
 </style>

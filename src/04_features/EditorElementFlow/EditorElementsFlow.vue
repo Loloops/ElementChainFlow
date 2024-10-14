@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Component, computed, nextTick, ref, watch } from "vue";
+import { Component, computed, ref, watch } from "vue";
+import { useMouseDownDragControll } from "./model/useMouseDownDragControll";
 import { useEditorStore } from "@/05_entities/Editor";
 import {
   EditorElement,
@@ -35,77 +36,9 @@ function handleMouseLeave() {
 function handleMouseDown(id: number, event: Event) {
   const element = editorElementStore.getElement(id);
 
-  if (!element) {
-    return;
-  }
+  if (!element) return;
 
-  if (element.styles.position === "static") {
-    const targetElement = event.currentTarget as HTMLElement;
-    editorElementStore.updateNewElementScale(id);
-    console.log(editorElementStore.scaleElements);
-    let widthElem = element.styles.width * editorElementStore.scaleElements;
-    let heightElem = element.styles.height * editorElementStore.scaleElements;
-
-    /* const { width, height } = targetElement.getBoundingClientRect(); */
-    console.log(widthElem, heightElem);
-
-    /* ---X--- */
-    let innerRightResizeElementClick =
-      mouseStore.windowMouse.x -
-      targetElement.getBoundingClientRect().left -
-      widthElem;
-    let innerRightBaseElementClickPercent =
-      ((element.styles.width -
-        (mouseStore.windowMouse.x -
-          targetElement.getBoundingClientRect().left)) /
-        element.styles.width) *
-      100;
-    let percentXFromElementResize =
-      (widthElem / 100) * innerRightBaseElementClickPercent;
-
-    /* ---Y--- */
-
-    let menuHeight =
-      targetElement.getBoundingClientRect().top - targetElement.offsetTop;
-
-    let innerBottomResizeElementClick =
-      mouseStore.windowMouse.y -
-      targetElement.getBoundingClientRect().top -
-      heightElem;
-
-    let innerBottomBaseElementClickPercent =
-      ((element.styles.height -
-        (mouseStore.windowMouse.y -
-          targetElement.getBoundingClientRect().top)) /
-        element.styles.height) *
-      100;
-
-    let percentYFromElementResize =
-      (heightElem / 100) * innerBottomBaseElementClickPercent;
-
-    editorElementStore.updateElementCurrentXY(id, {
-      x:
-        targetElement.getBoundingClientRect().left +
-        innerRightResizeElementClick +
-        percentXFromElementResize,
-      y:
-        targetElement.getBoundingClientRect().top +
-        innerBottomResizeElementClick +
-        percentYFromElementResize -
-        menuHeight,
-    });
-
-    editorElementStore.updateStylePositionElement(id);
-  }
-
-  elementDragStart.value = {
-    id,
-    x: mouseStore.windowMouse.x - element.coords.currentX,
-    y: mouseStore.windowMouse.y - element.coords.currentY,
-  };
-
-  editorStore.editorCoords.moveEditorElement = true;
-  editorElementStore.updateGrabbedElement(id);
+  elementDragStart.value = useMouseDownDragControll()(id, event, element);
 }
 
 function handleMouseUp() {
