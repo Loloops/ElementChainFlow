@@ -6,7 +6,9 @@ import {
   EditorElement,
   useStoreEditorElements,
 } from "@/05_entities/EditorElement";
+import { ElementTooltip } from "@/05_entities/elementTooltip";
 import { useMouseStore } from "@/05_entities/Mouse";
+import { ButtonUI } from "@/06_shared/components/ButtonUI";
 import { CircleItem } from "@/06_shared/components/CircleItem";
 import { SquareItem } from "@/06_shared/components/SquareItem";
 import { ElementType } from "@/06_shared/types";
@@ -35,10 +37,18 @@ function handleMouseLeave() {
 
 function handleMouseDown(id: number, event: Event) {
   const element = editorElementStore.getElement(id);
+  const targetElement = event.currentTarget as HTMLElement;
+  const target = event.target as HTMLElement;
 
   if (!element) return;
 
-  elementDragStart.value = useMouseDownDragControll()(id, event, element);
+  if (target.classList.contains("test")) {
+    elementDragStart.value = useMouseDownDragControll()(
+      id,
+      targetElement,
+      element
+    );
+  }
 }
 
 function handleMouseUp() {
@@ -100,8 +110,20 @@ watch(currentElementMove, (move) => {
       @mouseup="handleMouseUp"
     >
       <template v-if="elementComponents[element.type]">
-        <component :is="elementComponents[element.type]" />
+        <component :is="elementComponents[element.type]" class="test" />
       </template>
+      <ElementTooltip
+        :showTooltip="
+          element.hovered &&
+          !element.grabbed &&
+          element.styles.position === 'absolute'
+        "
+      >
+        <ButtonUI>123</ButtonUI>
+        <ButtonUI>123</ButtonUI>
+        <ButtonUI>123</ButtonUI>
+        <ButtonUI>123</ButtonUI>
+      </ElementTooltip>
     </EditorElement>
   </ul>
 </template>
