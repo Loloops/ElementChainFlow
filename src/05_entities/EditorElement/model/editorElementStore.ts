@@ -56,6 +56,10 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     elements.value.push(element);
   }
 
+  function deleteElement(id: number) {
+    elements.value = elements.value.filter((el) => el.id !== id);
+  }
+
   function updateElementsStartXY() {
     elements.value.forEach((el) => {
       el.coords.x_start = el.coords.currentX;
@@ -83,7 +87,7 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     });
   }
 
-  function updateElementsScale(/* deltaScale */) {
+  function updateElementsScale() {
     elements.value.forEach((el) => {
       if (el.styles.position === "static") return;
 
@@ -95,13 +99,6 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     el.styles.transform = `scale(${scaleElements.value})`;
     el.coords.currentX = el.coords.currentX * deltaScale.value;
     el.coords.currentY = el.coords.currentY * deltaScale.value;
-    /* console.log({
-      deltaScale: deltaScale.value,
-      width: el.styles.width,
-      eq: el.styles.width * deltaScale.value,
-    });
-    el.styles.width = el.styles.width * deltaScale.value;
-    el.styles.height = el.styles.height * deltaScale.value; */
   }
 
   function updateHoveredElement(id: number) {
@@ -148,6 +145,7 @@ export const useStoreEditorElements = defineStore("editorElements", () => {
     elements,
     getElement,
     updateElements,
+    deleteElement,
     updateElementsStartXY,
     updateElementCurrentXY,
     scaleElements,

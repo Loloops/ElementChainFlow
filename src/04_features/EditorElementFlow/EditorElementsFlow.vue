@@ -6,11 +6,13 @@ import {
   EditorElement,
   useStoreEditorElements,
 } from "@/05_entities/EditorElement";
-import { ElementTooltip } from "@/05_entities/elementTooltip";
+import { ElementTooltip, TooltipButton } from "@/05_entities/elementTooltip";
 import { useMouseStore } from "@/05_entities/Mouse";
 import { ButtonUI } from "@/06_shared/components/ButtonUI";
 import { CircleItem } from "@/06_shared/components/CircleItem";
+import { CrossSvg } from "@/06_shared/components/CrossSvg";
 import { SquareItem } from "@/06_shared/components/SquareItem";
+import { IconComponent } from "@/06_shared/icons";
 import { ElementType } from "@/06_shared/types";
 
 const editorElementStore = useStoreEditorElements();
@@ -119,10 +121,12 @@ watch(currentElementMove, (move) => {
           element.styles.position === 'absolute'
         "
       >
-        <ButtonUI>123</ButtonUI>
-        <ButtonUI>123</ButtonUI>
-        <ButtonUI>123</ButtonUI>
-        <ButtonUI>123</ButtonUI>
+        <TooltipButton
+          class="tooltip-button--cross"
+          @click.stop="editorElementStore.deleteElement(element.id)"
+          nameIcon="cross"
+          iconClass="cross-icon"
+        />
       </ElementTooltip>
     </EditorElement>
   </ul>
@@ -140,4 +144,6 @@ watch(currentElementMove, (move) => {
   float: left;
   width: 100%;
 }
+/* .tooltip-button--cross >>> .cross-icon {
+} */
 </style>

@@ -1,9 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { defineProps } from "vue";
 
-defineProps({
-  showTooltip: Boolean,
-});
+defineProps<{ showTooltip: boolean }>();
 </script>
 
 <template>
@@ -29,7 +27,7 @@ defineProps({
 
   & .element-tooltip-inner {
     padding: 5px 10px;
-    background: white;
+    background: #e4e4e4;
     box-shadow: 0px 2px 6px #cecece;
     display: flex;
     gap: 3px;
