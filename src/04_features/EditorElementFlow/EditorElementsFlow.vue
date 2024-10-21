@@ -6,9 +6,13 @@ import {
   EditorElement,
   useStoreEditorElements,
 } from "@/05_entities/EditorElement";
+import { ElementTooltip, TooltipButton } from "@/05_entities/elementTooltip";
 import { useMouseStore } from "@/05_entities/Mouse";
+import { ButtonUI } from "@/06_shared/components/ButtonUI";
 import { CircleItem } from "@/06_shared/components/CircleItem";
+import { CrossSvg } from "@/06_shared/components/CrossSvg";
 import { SquareItem } from "@/06_shared/components/SquareItem";
+import { IconComponent } from "@/06_shared/icons";
 import { ElementType } from "@/06_shared/types";
 
 const editorElementStore = useStoreEditorElements();
@@ -35,10 +39,18 @@ function handleMouseLeave() {
 
 function handleMouseDown(id: number, event: Event) {
   const element = editorElementStore.getElement(id);
+  const targetElement = event.currentTarget as HTMLElement;
+  const target = event.target as HTMLElement;
 
   if (!element) return;
 
-  elementDragStart.value = useMouseDownDragControll()(id, event, element);
+  if (target.classList.contains("test")) {
+    elementDragStart.value = useMouseDownDragControll()(
+      id,
+      targetElement,
+      element
+    );
+  }
 }
 
 function handleMouseUp() {
@@ -100,8 +112,22 @@ watch(currentElementMove, (move) => {
       @mouseup="handleMouseUp"
     >
       <template v-if="elementComponents[element.type]">
-        <component :is="elementComponents[element.type]" />
+        <component :is="elementComponents[element.type]" class="test" />
       </template>
+      <ElementTooltip
+        :showTooltip="
+          element.hovered &&
+          !element.grabbed &&
+          element.styles.position === 'absolute'
+        "
+      >
+        <TooltipButton
+          class="tooltip-button--cross"
+          @click.stop="editorElementStore.deleteElement(element.id)"
+          nameIcon="cross"
+          iconClass="cross-icon"
+        />
+      </ElementTooltip>
     </EditorElement>
   </ul>
 </template>
@@ -118,4 +144,6 @@ watch(currentElementMove, (move) => {
   float: left;
   width: 100%;
 }
+/* .tooltip-button--cross >>> .cross-icon {
+} */
 </style>

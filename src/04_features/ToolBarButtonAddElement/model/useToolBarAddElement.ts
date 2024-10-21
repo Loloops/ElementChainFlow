@@ -5,7 +5,7 @@ export function useToolBarAddElement() {
   const store = useStoreEditorElements();
   function addElement(type: ElementType) {
     const newElement: Element = {
-      id: store.elements.length + 1,
+      id: new Date().getTime(),
       styles: {
         position: "static",
         transform: `scale(1)`,

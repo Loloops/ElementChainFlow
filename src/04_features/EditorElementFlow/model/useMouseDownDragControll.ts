@@ -2,7 +2,7 @@ import { useEditorStore } from "@/05_entities/Editor";
 import { Element, useStoreEditorElements } from "@/05_entities/EditorElement";
 import { useMouseStore } from "@/05_entities/Mouse";
 
-type optionDragStar = { id: number; x: number; y: number };
+type optionsDragStar = { id: number; x: number; y: number };
 
 export function useMouseDownDragControll() {
   const editorElementStore = useStoreEditorElements();
@@ -11,11 +11,10 @@ export function useMouseDownDragControll() {
 
   return function mouseDownDragControll(
     id: number,
-    event: Event,
+    targetElement: HTMLElement,
     element: Element
-  ): optionDragStar {
+  ): optionsDragStar {
     if (element.styles.position === "static") {
-      const targetElement = event.currentTarget as HTMLElement;
       const menuHeight =
         targetElement.getBoundingClientRect().top - targetElement.offsetTop;
 

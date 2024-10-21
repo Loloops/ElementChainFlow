@@ -18,5 +18,7 @@
   border: 1px solid #cecece;
   border-radius: 10px;
   box-shadow: 0px 2px 6px #cecece;
+  position: relative;
+  z-index: 2;
 }
 </style>
