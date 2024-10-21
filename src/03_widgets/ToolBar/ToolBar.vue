@@ -10,7 +10,7 @@ import { ListButtonsToolBar } from "./components/ListButtonsToolBar";
 
 <style scoped lang="scss">
 .toolbar {
-  padding: 1rem;
+  padding: 0.3rem;
   min-height: 50px;
   background-color: #ffffff;
   border-bottom: 1px solid #cecece;

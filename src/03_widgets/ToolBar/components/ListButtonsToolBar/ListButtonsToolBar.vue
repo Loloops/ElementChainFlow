@@ -1,10 +1,28 @@
 <script setup lang="ts">
+import type { nameIcons } from "@/06_shared/icons";
+import type { ElementType } from "@/06_shared/types";
 import { ToolBarAddElement } from "@/04_features/ToolBarButtonAddElement";
-import { ToolbarItemFactory } from "@/05_entities/ToolBarButtonAddElement";
 
-const toolBarItems = [
-  ToolbarItemFactory.create("square"),
-  ToolbarItemFactory.create("circle"),
+type ToolbarItem = {
+  id: number;
+  type: ElementType;
+  title: string;
+  icon: nameIcons;
+};
+
+const toolBarItems: ToolbarItem[] = [
+  {
+    id: 1,
+    type: "circle",
+    title: "add circle",
+    icon: "circle",
+  },
+  {
+    id: 2,
+    type: "square",
+    title: "add square",
+    icon: "square",
+  },
 ];
 </script>
 
@@ -13,16 +31,20 @@ const toolBarItems = [
     <div class="draw-components">
       <ul>
         <li v-for="item in toolBarItems" :key="item.id">
-          <ToolBarAddElement :elementType="item.type">
-            <component :is="item.icon" />
-          </ToolBarAddElement>
+          <ToolBarAddElement
+            class="toolbar-item"
+            :elementType="item.type"
+            :buttonTitle="item.title"
+            :nameIcon="item.icon"
+            iconClass="circle-icon"
+          />
         </li>
       </ul>
     </div>
   </article>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .draw-components {
   & ul {
     list-style: none;
@@ -31,12 +53,28 @@ const toolBarItems = [
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
   }
 
   & li {
-    max-width: 24px;
-    max-height: 24px;
+    max-width: 50px;
+    max-height: 50px;
+  }
+}
+
+.toolbar-item::v-deep .circle-icon {
+  width: 24px;
+  height: 24px;
+}
+.toolbar-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+
+  &:hover {
+    background-color: #eaeaea;
+    border: 1px solid #bfbfbf;
+    color: black;
   }
 }
 </style>

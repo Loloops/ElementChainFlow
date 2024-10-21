@@ -6,11 +6,12 @@ import {
   EditorElement,
   useStoreEditorElements,
 } from "@/05_entities/EditorElement";
-import { ElementTooltip, TooltipButton } from "@/05_entities/elementTooltip";
+import { ElementTooltip } from "@/05_entities/elementTooltip";
 import { useMouseStore } from "@/05_entities/Mouse";
 import { ButtonUI } from "@/06_shared/components/ButtonUI";
 import { CircleItem } from "@/06_shared/components/CircleItem";
 import { CrossSvg } from "@/06_shared/components/CrossSvg";
+import { IconButton } from "@/06_shared/components/IconButton";
 import { SquareItem } from "@/06_shared/components/SquareItem";
 import { IconComponent } from "@/06_shared/icons";
 import { ElementType } from "@/06_shared/types";
@@ -121,18 +122,17 @@ watch(currentElementMove, (move) => {
           element.styles.position === 'absolute'
         "
       >
-        <TooltipButton
-          class="tooltip-button--cross"
+        <IconButton
           @click.stop="editorElementStore.deleteElement(element.id)"
           nameIcon="cross"
-          iconClass="cross-icon"
+          buttonTitle="Delete element"
         />
       </ElementTooltip>
     </EditorElement>
   </ul>
 </template>
 
-<style scoped type="scss">
+<style scoped lang="scss">
 .editor-field {
   padding: 0;
   margin: 10px 5px;
@@ -144,6 +144,6 @@ watch(currentElementMove, (move) => {
   float: left;
   width: 100%;
 }
-/* .tooltip-button--cross >>> .cross-icon {
-} */
+/*.tooltip-button--cross::v-deep .cross-icon {
+}*/
 </style>
