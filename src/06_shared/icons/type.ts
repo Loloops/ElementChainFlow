@@ -1,1 +1,1 @@
-export type nameIcons = "cross";
+export type nameIcons = "cross" | "square" | "circle";

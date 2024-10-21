@@ -5,18 +5,19 @@ import { IconComponent, nameIcons } from "@/06_shared/icons";
 
 defineProps<{
   nameIcon: nameIcons;
+  buttonTitle: string;
   iconClass?: string;
 }>();
 </script>
 
 <template>
-  <ButtonUI class="tooltip-button" title="delete element">
+  <ButtonUI class="button-icon" :title="buttonTitle">
     <IconComponent :name="nameIcon" :class="iconClass" />
   </ButtonUI>
 </template>
 
 <style lang="scss" scoped>
-.tooltip-button {
+.button-icon {
   background-color: white;
   transition: all 0.2s ease;
   padding: 3px;
